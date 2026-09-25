@@ -1,6 +1,8 @@
 package com.example.nextwatch
 
 import com.google.android.exoplayer2.MediaItem
+import android.app.PictureInPictureParams
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -53,15 +55,16 @@ class MainActivity : AppCompatActivity(), Player.Listener {
         binding.exoPlayer.player = player
         binding.exoPlayer.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
 
-      //  var driveStreamUrl = "https://drive.google.com/uc?export=download&confirm=t&id=1nFAdlh4gzJlxSl0iXfqhkV2ozIm3uK_R"
-        var driveStreamUrl = "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8"
+     // var driveStreamUrl = "https://drive.google.com/uc?export=download&confirm=t&id=1nFAdlh4gzJlxSl0iXfqhkV2ozIm3uK_R"
+     // var driveStreamUrl = "https://photos.app.goo.gl/KjKG4aQUEELhF9kK6"
+      var driveStreamUrl = "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8"
       //  var driveStreamUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
 
 
 
 // 2. Configure HTTP Data Source to allow cross-protocol redirects
-   //    val dataSourceFactory =  DefaultHttpDataSource.Factory()
-     //   .setAllowCrossProtocolRedirects(true);
+    //   val dataSourceFactory =  DefaultHttpDataSource.Factory()
+    //    .setAllowCrossProtocolRedirects(true)
       val mediaItem = MediaItem.fromUri(driveStreamUrl);
       player?.setMediaItem(mediaItem);
 // 3. Build Progressive Media Source (for MP4 / video containers)
@@ -69,18 +72,29 @@ class MainActivity : AppCompatActivity(), Player.Listener {
   //      .createMediaSource(MediaItem.fromUri(driveStreamUrl));
 
 // 4. Pass to ExoPlayer
-       // player?.setMediaSource(mediaSource)
+      //  player?.setMediaSource(mediaSource)
         player?.prepare()
         player?.playWhenReady = true
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBackPressed() {
-        if(!isPipMode!!) {
-            enterPictureInPictureMode()
-            isPipMode = true
+        super.onBackPressed()
+    }
+
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && player?.isPlaying == true) {
+            val params = PictureInPictureParams.Builder().build()
+            enterPictureInPictureMode(params)
+        }
+    }
+
+    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        if (isInPictureInPictureMode) {
+            binding.exoPlayer.hideController()
         } else {
-            super.onBackPressed()
+            binding.exoPlayer.showController()
         }
     }
 

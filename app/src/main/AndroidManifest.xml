@@ -16,6 +16,8 @@
         <activity
             android:name="com.example.nextwatch.MainActivity"
             android:exported="true"
+            android:supportsPictureInPicture="true"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout|smallestScreenSize"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
