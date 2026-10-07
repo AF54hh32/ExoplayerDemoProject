@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="green_color">#275231</color>
+    <color name="green_color_stroke">#10501F</color>
+    <color name="green_color_light">#2F6238</color>
+    <color name="marker_color_green">#77DB89</color>
 </resources>

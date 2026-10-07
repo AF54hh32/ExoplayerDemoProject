@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">NextWatch</string>
+    <string name="app_name">Organic Journey</string>
+    <string name="deliever_to">DELIEVER TO</string>
+    <string name="title_activity_maps_demo">MapsDemo</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
